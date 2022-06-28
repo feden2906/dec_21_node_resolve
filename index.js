@@ -1,5 +1,8 @@
+console.log(process.env.MODEqqq)
 const express = require('express');
 const mongoose = require('mongoose');
+const path = require('path');
+require('dotenv').config({ path: path.join(process.cwd(), 'environments', `${process.env.MODE}.env`)})
 
 const { authRouter, userRouter } = require('./routes');
 const { configs } = require('./configs');
