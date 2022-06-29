@@ -2,8 +2,8 @@
   "name": "dec_21_node_resolve",
   "version": "1.0.0",
   "scripts": {
-    "start:dev": "MODE=dev nodemon .",
-    "start:prod": "M=prod node ."
+    "start:dev": "cross-env MODE=dev nodemon .",
+    "start:prod": "MODE=prod node ."
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
