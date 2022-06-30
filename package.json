@@ -2,7 +2,7 @@
   "name": "dec_21_node_resolve",
   "version": "1.0.0",
   "scripts": {
-    "start:dev": "cross-env MODE=dev nodemon .",
+    "start:dev": "MODE=dev nodemon .",
     "start:prod": "MODE=prod node ."
   },
   "dependencies": {
@@ -14,6 +14,7 @@
     "mongoose": "^6.3.8",
     "nodemailer": "^6.7.5",
     "nodemailer-express-handlebars": "^5.0.0",
-    "nodemon": "^2.0.18"
+    "nodemon": "^2.0.18",
+    "twilio": "^3.78.0"
   }
 }

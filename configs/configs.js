@@ -8,5 +8,9 @@ module.exports = {
   NO_REPLY_EMAIL: process.env.NO_REPLY_EMAIL || 'email@email.com',
   NO_REPLY_EMAIL_PASSWORD: process.env.NO_REPLY_EMAIL_PASSWORD || '12345',
 
-  FRONTEND_URL: process.env.FRONTEND_URL || 'https://google.com'
+  FRONTEND_URL: process.env.FRONTEND_URL || 'https://google.com',
+
+  TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID,
+  TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN,
+  TWILIO_NUMBER: process.env.TWILIO_NUMBER,
 };

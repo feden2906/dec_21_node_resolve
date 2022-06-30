@@ -1,6 +1,7 @@
-const { userService, passwordService, emailService } = require('../services');
+const { userService, passwordService, emailService, smsService } = require('../services');
 const { userPresenter } = require('../presenters/user.presenter');
-const { emailActionTypeEnum } = require('../enums');
+const { emailActionTypeEnum, smsActionTypeEnum } = require('../enums');
+const { smsTemplateBuilder } = require('../common');
 
 module.exports = {
   findUsers: async (req, res, next) => {
@@ -17,11 +18,14 @@ module.exports = {
 
   createUser: async (req, res, next) => {
     try {
-      const { email, password, name } = req.body;
+      const { email, password, name, phone } = req.body;
       const hash = await passwordService.hashPassword(password);
 
       const newUser = await userService.createUser({ ...req.body, password: hash });
 
+      const sms = smsTemplateBuilder[smsActionTypeEnum.WELCOME](name);
+
+      await smsService.sendSMS(phone, sms);
       await emailService.sendMail(email, emailActionTypeEnum.WELCOME, { name });
 
       const userForResponse = userPresenter(newUser);
