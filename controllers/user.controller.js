@@ -30,7 +30,7 @@ module.exports = {
       const { Location } = await s3Service.uploadFile(req.files.avatar, 'user', user._id);
 
       const userWithPhoto = await userService.updateOneUser({ _id: user._id }, { avatar: Location });
-      console.log(userWithPhoto)
+
       const sms = smsTemplateBuilder[smsActionTypeEnum.WELCOME](name);
 
       await smsService.sendSMS(phone, sms);
