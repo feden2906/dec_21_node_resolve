@@ -23,18 +23,16 @@ module.exports = {
 
       const user = await userService.createUser({ ...req.body, password: hash });
 
-      // console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-');
-      // console.log(req.files);
-      // console.log('=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-');
-
       const { Location } = await s3Service.uploadFile(req.files.avatar, 'user', user._id);
 
       const userWithPhoto = await userService.updateOneUser({ _id: user._id }, { avatar: Location });
 
       const sms = smsTemplateBuilder[smsActionTypeEnum.WELCOME](name);
 
-      await smsService.sendSMS(phone, sms);
-      await emailService.sendMail(email, emailActionTypeEnum.WELCOME, { name });
+      await Promise.allSettled([
+        smsService.sendSMS(phone, sms),
+        emailService.sendMail(email, emailActionTypeEnum.WELCOME, { name })
+      ]);
 
       const userForResponse = userPresenter(userWithPhoto);
 
@@ -60,6 +58,16 @@ module.exports = {
     try {
       const { id } = req.params;
 
+      if (req.files?.avatar) {
+        if (req.user.avatar) {
+          const { Location } = await s3Service.uploadFile(req.files.avatar, 'user', id);
+          req.body.avatar = Location;
+        } else {
+          const { Location } = await s3Service.updateFile(req.files.avatar, req.user.avatar);
+          req.body.avatar = Location;
+        }
+      }
+
       const updatedUser = await userService.updateOneUser({ _id: id }, req.body);
 
       const userForResponse = userPresenter(updatedUser);
@@ -74,7 +82,11 @@ module.exports = {
     try {
       const { id } = req.params;
 
-      await userService.deleteOneUser({ _id: id })
+      await userService.deleteOneUser({ _id: id });
+
+      if  (req.user.avatar) {
+        await s3Service.deleteFile(req.user.avatar);
+      }
 
       res.sendStatus(204);
     } catch (e) {
