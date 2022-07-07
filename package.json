@@ -2,6 +2,7 @@
   "name": "dec_21_node_resolve",
   "version": "1.0.0",
   "scripts": {
+    "start": "node .",
     "start:dev": "MODE=dev nodemon .",
     "start:prod": "MODE=prod node ."
   },
