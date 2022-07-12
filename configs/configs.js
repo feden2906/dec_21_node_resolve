@@ -10,9 +10,9 @@ module.exports = {
 
   FRONTEND_URL: process.env.FRONTEND_URL || 'https://google.com',
 
-  TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID,
-  TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN,
-  TWILIO_NUMBER: process.env.TWILIO_NUMBER,
+  TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID || 'YTRE',
+  TWILIO_AUTH_TOKEN: process.env.TWILIO_AUTH_TOKEN || 'SDFSDER',
+  TWILIO_NUMBER: process.env.TWILIO_NUMBER || 'ASD',
 
   AWS_S3_BUCKET: process.env.AWS_S3_BUCKET,
   AWS_S3_REGION: process.env.AWS_S3_REGION,
